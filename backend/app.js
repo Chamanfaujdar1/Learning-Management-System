@@ -3,7 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import morgan from 'morgan';
-
+import errorMiddleware from './middlewares/error.middleware.js';
 import userRoute from "./routes/user.routes.js";
 
 const app = express();
@@ -25,6 +25,8 @@ app.use(morgan('dev'))
 app.use('/ping', (req, res) => {
     res.send('/pong');
 });
+
+app.use(errorMiddleware);
 
 // Routes of 3 modules
 app.all('*', (req, res) => {
