@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 
+import userRoute from "./routes/user.routes.js";
+
 const app = express();
 
 app.use(express.json());
