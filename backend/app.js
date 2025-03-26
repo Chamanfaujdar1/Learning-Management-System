@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import errorMiddleware from './middlewares/error.middleware.js';
 import userRoute from "./routes/user.routes.js";
+import miscRoutes from "./routes/miscellaneous.routes.js"
 
 const app = express();
 
@@ -28,6 +29,9 @@ app.use('/ping', (req, res) => {
 });
 
 app.use('/api/v1/user', userRoute);
+
+
+app.use("/api/v1/",miscRoutes)
 
 app.use(errorMiddleware);
 
