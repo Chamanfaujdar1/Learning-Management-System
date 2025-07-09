@@ -1,4 +1,4 @@
-import logo from './logo.svg'
+import lms_logo from './logo.svg'
 import logo_dark from './logo_dark.svg'
 import search_icon from './search_icon.svg'
 import cross_icon from './cross_icon.svg'
@@ -42,9 +42,13 @@ import profile_img from './profile_img.png'
 import profile_img2 from './profile_img2.png'
 import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
+import logo from './lms_logo.jpg'
+import new_logo from './new_logo.jpg'
 
 
 export const assets = {
+    new_logo,
+    lms_logo,
     logo,
     search_icon,
     sketch,
@@ -229,7 +233,7 @@ export const dummyCourses = [
                         "lectureId": "lecture1",
                         "lectureTitle": "What is JavaScript?",
                         "lectureDuration": 16,
-                        "lectureUrl": "https://youtu.be/CBWnBi-awSA",
+                        "lectureUrl": "https://www.youtube.com/0vL_EhRMFN0",
                         "isPreviewFree": true,
                         "lectureOrder": 1
                     },
@@ -283,7 +287,7 @@ export const dummyCourses = [
         "createdAt": "2024-12-17T08:16:53.622Z",
         "updatedAt": "2025-01-02T04:47:44.701Z",
         "__v": 4,
-        "courseThumbnail": "https://img.youtube.com/vi/CBWnBi-awSA/maxresdefault.jpg"
+        "courseThumbnail": "https://i.ytimg.com/vi/ajdRvxDWH4w/hq720.jpg?sqp=-oaymwEXCNAFEJQDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAeOhQXpCPK8lTE7tX5mqrBwBrN1Q"
     },
     {
         "_id": "675ac1512100b91a6d9b8b24",
