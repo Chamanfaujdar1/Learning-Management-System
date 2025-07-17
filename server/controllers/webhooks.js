@@ -32,42 +32,32 @@ export const clerkWebhooks = async (req, res) => {
                 message: "User created successfully",
                 data: userData
             })
+        }else if(type==='user.updated'){
+            const userData = {
+                _id:data.id,
+                name:data.first_name + " " + data.last_name,
+                email:data.email_addresses[0].email_address,
+                imageUrl:data.image_url,
+            }
+            console.log("User Updated:", userData);
+            await User.updateOne({ _id: data.id }, { $set: userData });
+            return res.json({
+                success: true,
+                message: "User updated successfully",
+                data: userData
+                })
+        } else if(type==='user.deleted'){
+            console.log("User Deleted:", data.id);
+            await User.deleteOne({ _id: data.id });
+            return res.json({
+                success: true,
+                message: "User deleted successfully",
+            })
         }
-        // switch(type) {
-        //     case "user.created": {
-        //         const userData = {
-        //             _id: data.id,
-        //             email: data.email_address[0].email_address,
-        //             name: data.first_name + " " + data.last_name,
-        //             imageUrl: data.image_url,
-        //         }
-        //         console.log("User Created:", userData);
-        //         await User.create(userData);
-        //         res.json({})
-        //         break;
-        //     }
-
-        //     case 'user.updated' : {
-        //         const userData = {
-        //             email: data.email_address[0].email_address,
-        //             name: data.first_name + " " + data.last_name,
-        //             imageUrl: data.image_url,
-        //         }
-
-        //         await User.findByIdAndUpdate(data.id, userData)
-        //         res.json({})
-        //         break;
-        //     }
-
-        //     case 'user.deleted' : {
-        //         await User.findByIdAndDelete(data.id);
-        //         res.json({})
-        //         break;
-        //     }
-
-        //     default:
-        //         break;
-        // }
+        return res.status(400).json({
+            success: false,
+            message: "Invalid event type"
+        });
     }
     catch(error){
         res.json({success: false, message: error.message});
