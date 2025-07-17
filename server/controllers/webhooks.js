@@ -15,7 +15,7 @@ export const clerkWebhooks = async (req, res) => {
 
         const {data, type} = req.body;
 
-        console.log("Webhook received:", type, data);
+        console.log(data)
         switch(type) {
             case "user.created": {
                 const userData = {
@@ -24,6 +24,7 @@ export const clerkWebhooks = async (req, res) => {
                     name: data.first_name + " " + data.last_name,
                     imageUrl: data.image_url,
                 }
+                console.log("User Created:", userData);
                 await User.create(userData);
                 res.json({})
                 break;
