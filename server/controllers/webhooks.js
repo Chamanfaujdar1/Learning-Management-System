@@ -8,6 +8,7 @@ import Course from "../models/Course.js";
 
 export const clerkWebhooks = async (req, res) => {
     try{
+
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
         await whook.verify(JSON.stringify(req.body), {
@@ -18,59 +19,53 @@ export const clerkWebhooks = async (req, res) => {
 
         const {data, type} = req.body;
 
-        console.log(data)
-
-        if(type==='user.created'){
-            const userData = {
-                _id:data.id,
-                name:data.first_name + " " + data.last_name,
-                email:data.email_addresses[0].email_address,
-                imageUrl:data.image_url,
+        switch(type){
+            case 'user.created': {
+                const userData = {
+                    _id: data._id,
+                    email: data.email_addresses[0].email_address,
+                    name: data.first_name + " " + data.last_name,
+                    imageUrl: data.image_url,
+                }
+                await User.create(userData)
+                res.json({})
+                break;
             }
-            console.log("User Created:", userData);
 
-            await User.create(userData);
-            return res.json({
-                success: true,
-                message: "User created successfully",
-                data: userData
-            })
-        }else if(type==='user.updated'){
-            const userData = {
-                _id:data.id,
-                name:data.first_name + " " + data.last_name,
-                email:data.email_addresses[0].email_address,
-                imageUrl:data.image_url,
+            case 'user.updated': {
+                const userData = {
+                    
+                    email: data.email_address[0].email_address,
+                    name: data.first_name + " " + data.last_name,
+                    imageUrl: data.image_url,
+                }
+                await User.findByIdAndUpdate(data.id, userData)
+                res.json({})
+                break;
             }
-            console.log("User Updated:", userData);
-            await User.updateOne({ _id: data.id }, { $set: userData });
-            return res.json({
-                success: true,
-                message: "User updated successfully",
-                data: userData
-                })
-        } else if(type==='user.deleted'){
-            console.log("User Deleted:", data.id);
-            await User.deleteOne({ _id: data.id });
-            return res.json({
-                success: true,
-                message: "User deleted successfully",
-            })
+
+            case 'user.deleted': {
+                await User.findByIdAndDelete(data.id)
+                res.json({})
+                break;
+            }
+            default:
+                break;
         }
-        return res.status(400).json({
-            success: false,
-            message: "Invalid event type"
-        });
+        
     }
     catch(error){
-        res.json({success: false, message: error.message});
+        res.json({success: false, message: error.message})
     }
+    
 }
 
 const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export const stripeWebhooks = async(request, response) => {
     const sig = request.headers['stripe-signature'];
+
+    console.log(sig)
 
     let event;
 
